@@ -242,20 +242,133 @@ Routes are defined in `src/App.tsx` and route constants in `src/lib/constants.ts
 
 ## Deployment
 
-### Vercel
+### Prerequisites
+
+Before deploying, ensure you have:
+- Node.js 18+ installed
+- A Supabase project set up with all migrations applied
+- Environment variables configured
+- All tests passing (`npm test` if configured)
+
+### Environment Variables Required
+
+For the frontend (VITE_ prefix required for Vite):
+```bash
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key-here
+```
+
+For the server (if deploying the backend):
+```bash
+PORT=3001
+NODE_ENV=production
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+SUPABASE_ANON_KEY=your-anon-key
+OPENAI_API_KEY=your-openai-key
+ANTHROPIC_API_KEY=your-anthropic-key
+ALLOWED_ORIGINS=https://yourdomain.com
+```
+
+### Vercel (Recommended for Frontend)
 
 1. Push your code to GitHub
-2. Import the project in Vercel
-3. Add environment variables
-4. Deploy
+2. Go to [vercel.com](https://vercel.com) and import your repository
+3. Configure the project:
+   - Framework Preset: Vite
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+4. Add environment variables in the Vercel dashboard
+5. Deploy
 
-### Netlify
+**Post-Deployment:**
+- Verify the build succeeds
+- Test authentication flows
+- Check that environment variables are properly set
+- Configure custom domain (optional)
+
+### Netlify (Alternative for Frontend)
 
 1. Push your code to GitHub
-2. Import the project in Netlify
-3. Build command: `npm run build`
-4. Publish directory: `dist`
-5. Add environment variables
+2. Go to [netlify.com](https://netlify.com) and import your repository
+3. Configure build settings:
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+4. Add environment variables in Site settings > Environment variables
+5. Deploy
+
+**Post-Deployment:**
+- Set up redirects for SPA routing (create `_redirects` file in public/)
+- Configure custom headers for security
+- Test all routes and authentication
+
+### Docker (Full Stack Deployment)
+
+Create a `Dockerfile` in the root:
+
+```dockerfile
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+Build and run:
+```bash
+docker build -t secure-saas .
+docker run -p 80:80 secure-saas
+```
+
+### Server Deployment (Backend)
+
+For the Express server in `/server`:
+
+**Option 1: Railway/Render**
+1. Create a new project
+2. Connect your GitHub repository
+3. Set the root directory to `server/`
+4. Add environment variables
+5. Deploy
+
+**Option 2: AWS/Google Cloud/Azure**
+1. Set up a VM or container service
+2. Clone your repository
+3. Install dependencies: `cd server && npm install`
+4. Set environment variables
+5. Start with PM2: `pm2 start src/index.ts --name saas-server`
+
+### Post-Deployment Verification
+
+After deploying, verify:
+
+1. **Security Headers**: Check CSP, X-Frame-Options, etc.
+2. **Authentication**: Test login, signup, and OAuth flows
+3. **Database**: Verify RLS policies are active
+4. **Storage**: Test file upload functionality
+5. **API Endpoints**: Verify all endpoints are accessible
+6. **Environment Variables**: Ensure no secrets are exposed
+7. **Error Handling**: Test error pages and logging
+8. **Performance**: Run Lighthouse audit (target: 90+ score)
+
+**Security Checklist Before Production:**
+- [ ] All environment variables set correctly
+- [ ] HTTPS enabled and enforced
+- [ ] RLS policies tested and active
+- [ ] Rate limiting configured
+- [ ] Error messages don't leak sensitive info
+- [ ] CORS configured for production domain only
+- [ ] Audit logging enabled
+- [ ] Backup strategy in place
+- [ ] Monitoring and alerting configured
+- [ ] Review [security-checklist.md](./security-checklist.md)
 
 ---
 
