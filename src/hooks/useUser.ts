@@ -104,7 +104,9 @@ export function useUser(): UseUserReturn {
       if (context?.previousProfile) {
         queryClient.setQueryData(userKeys.profile(), context.previousProfile);
       }
-      console.error('Error updating profile:', err);
+      if (import.meta.env.DEV) {
+        console.error('Error updating profile:', err);
+      }
     },
     onSettled: () => {
       // Refetch after mutation

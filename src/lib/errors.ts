@@ -146,7 +146,15 @@ export function isNetworkError(error: unknown): boolean {
  * Handle Supabase Auth errors
  */
 export function handleAuthError(error: AuthError): AppError {
-  console.error('[Auth Error]', error);
+  // Only log in development mode
+  if (import.meta.env.DEV) {
+    console.error('[Auth Error]', error);
+  }
+
+  // In production, send to error tracking service (Sentry, LogRocket, etc.)
+  // if (import.meta.env.PROD) {
+  //   // Example: Sentry.captureException(error);
+  // }
 
   const errorMap: Record<string, { message: string; status: number }> = {
     invalid_credentials: { message: ERROR_MESSAGES.INVALID_CREDENTIALS, status: 401 },
@@ -181,7 +189,15 @@ export function handleAuthError(error: AuthError): AppError {
  * Handle Supabase Postgrest errors
  */
 export function handlePostgrestError(error: PostgrestError): AppError {
-  console.error('[Database Error]', error);
+  // Only log in development mode
+  if (import.meta.env.DEV) {
+    console.error('[Database Error]', error);
+  }
+
+  // In production, send to error tracking service
+  // if (import.meta.env.PROD) {
+  //   // Example: Sentry.captureException(error);
+  // }
 
   const errorMap: Record<string, { message: string; status: number; code: string }> = {
     '23505': { message: 'This record already exists', status: 409, code: 'DUPLICATE_ERROR' },
@@ -233,7 +249,9 @@ export function handleError(error: unknown): AppError {
 
   // Standard Error
   if (error instanceof Error) {
-    console.error('[Unhandled Error]', error);
+    if (import.meta.env.DEV) {
+      console.error('[Unhandled Error]', error);
+    }
     return new AppError(
       ERROR_MESSAGES.GENERIC_ERROR,
       'UNKNOWN_ERROR',
@@ -242,7 +260,9 @@ export function handleError(error: unknown): AppError {
   }
 
   // Unknown error type
-  console.error('[Unknown Error Type]', error);
+  if (import.meta.env.DEV) {
+    console.error('[Unknown Error Type]', error);
+  }
   return new AppError(ERROR_MESSAGES.GENERIC_ERROR);
 }
 
@@ -284,18 +304,24 @@ export function logError(
 ): void {
   const appError = handleError(error);
 
-  console.error('[Error]', {
-    name: appError.name,
-    message: appError.message,
-    code: appError.code,
-    status: appError.status,
-    stack: appError.stack,
-    context,
-    timestamp: new Date().toISOString(),
-  });
+  // Only log to console in development
+  if (import.meta.env.DEV) {
+    console.error('[Error]', {
+      name: appError.name,
+      message: appError.message,
+      code: appError.code,
+      status: appError.status,
+      stack: appError.stack,
+      context,
+      timestamp: new Date().toISOString(),
+    });
+  }
 
-  // In production, you might want to send this to an error tracking service
-  // like Sentry, LogRocket, etc.
+  // In production, send to error tracking service
+  if (import.meta.env.PROD) {
+    // Example: Send to Sentry, LogRocket, etc.
+    // Sentry.captureException(appError, { contexts: { custom: context } });
+  }
 }
 
 // ----------------------------------------------------------------------------

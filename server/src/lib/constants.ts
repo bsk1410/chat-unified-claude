@@ -176,7 +176,7 @@ export const RATE_LIMIT = {
 export const CORS = {
   ALLOWED_ORIGINS: ENV.IS_DEVELOPMENT
     ? ['http://localhost:3000', 'http://localhost:5173', 'http://127.0.0.1:3000', 'http://127.0.0.1:5173']
-    : [], // Add production origins
+    : (process.env.ALLOWED_ORIGINS?.split(',').map(origin => origin.trim()) || []),
   ALLOWED_METHODS: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   ALLOWED_HEADERS: ['Content-Type', 'Authorization', 'X-Request-ID'],
   EXPOSE_HEADERS: ['X-Request-ID', 'X-RateLimit-Remaining'],

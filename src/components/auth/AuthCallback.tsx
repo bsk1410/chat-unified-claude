@@ -60,7 +60,9 @@ export function AuthCallback() {
         }, 1500);
 
       } catch (error) {
-        console.error('Auth callback error:', error);
+        if (import.meta.env.DEV) {
+          console.error('Auth callback error:', error);
+        }
         setStatus('error');
         setErrorMessage(
           error instanceof Error ? error.message : 'Authentication failed'

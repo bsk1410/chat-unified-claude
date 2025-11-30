@@ -63,7 +63,9 @@ export function Navigation({ variant = 'default' }: NavigationProps) {
     try {
       await signOut();
     } catch (error) {
-      console.error('Sign out error:', error);
+      if (import.meta.env.DEV) {
+        console.error('Sign out error:', error);
+      }
     }
   };
 

@@ -109,15 +109,38 @@ export function Settings() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      toast.error('Please select an image file');
+    // Multi-layer validation for security
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    // Layer 1: Validate MIME type
+    if (!allowedTypes.includes(file.type)) {
+      toast.error('Please select a valid image file (JPEG, PNG, GIF, or WebP)');
       return;
     }
 
-    // Validate file size (5MB)
-    if (file.size > 5 * 1024 * 1024) {
+    // Layer 2: Validate file extension
+    const ext = file.name.split('.').pop()?.toLowerCase();
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    if (!ext || !allowedExtensions.includes(ext)) {
+      toast.error('Invalid file extension');
+      return;
+    }
+
+    // Layer 3: Validate file size
+    if (file.size > maxSize) {
       toast.error('Image must be less than 5MB');
+      return;
+    }
+
+    // Layer 4: Validate file name (sanitize)
+    const sanitizedName = file.name
+      .replace(/\.\./g, '') // Remove parent directory references
+      .replace(/\//g, '') // Remove forward slashes
+      .replace(/\\/g, ''); // Remove backslashes
+
+    if (sanitizedName !== file.name) {
+      toast.error('Invalid file name');
       return;
     }
 

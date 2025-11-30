@@ -13,6 +13,7 @@ import { logger, LOG_CATEGORIES } from './services/logger';
 import { requestLoggerMiddleware } from './middleware/request-logger';
 import { authMiddleware } from './middleware/auth';
 import { errorHandler, notFoundHandler } from './middleware/error-handler';
+import { apiRateLimiter } from './middleware/rate-limit';
 
 // Routes
 import personas from './routes/personas';
@@ -52,6 +53,9 @@ if (ENV.IS_DEVELOPMENT) {
 
 // Request logging
 app.use('*', requestLoggerMiddleware);
+
+// Rate limiting (applied globally)
+app.use('*', apiRateLimiter());
 
 // ----------------------------------------------------------------------------
 // Health Check (Public)

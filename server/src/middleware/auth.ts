@@ -104,10 +104,13 @@ export async function optionalAuthMiddleware(c: Context, next: Next): Promise<Re
 
 // ----------------------------------------------------------------------------
 // Admin Auth Middleware
-// Requires admin role (extend as needed)
+// Requires admin role - SECURITY CRITICAL
 // ----------------------------------------------------------------------------
 
 export async function adminAuthMiddleware(c: Context, next: Next): Promise<Response | void> {
+  const requestId = c.get('requestId') || 'unknown';
+  const log = createRequestLogger(requestId);
+
   // First run normal auth
   const authResult = await authMiddleware(c, () => Promise.resolve());
 
@@ -117,9 +120,19 @@ export async function adminAuthMiddleware(c: Context, next: Next): Promise<Respo
 
   const user = c.get('user');
 
-  // Check for admin role (implement your own logic)
-  // For now, we allow all authenticated users
-  // You might check user.role === 'admin' or check a database field
+  // SECURITY: Check for admin role in user metadata or database
+  // This requires you to set app_metadata.role = 'admin' in Supabase
+  const isAdmin = user.role === 'admin';
+
+  if (!isAdmin) {
+    log.warn(LOG_CATEGORIES.AUTH, 'Admin access denied for non-admin user', {
+      userId: user.id,
+      email: user.email,
+    });
+    return c.json({ error: ERROR_MESSAGES.FORBIDDEN }, 403);
+  }
+
+  log.debug(LOG_CATEGORIES.AUTH, 'Admin access granted', { userId: user.id });
 
   await next();
 }

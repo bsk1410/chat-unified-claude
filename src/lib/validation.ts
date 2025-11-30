@@ -199,10 +199,16 @@ export type UserPreferences = z.infer<typeof userPreferencesSchema>;
 // ----------------------------------------------------------------------------
 
 /**
- * Sanitize string input
+ * Sanitize string input - Enhanced version to prevent XSS
  */
 export function sanitizeInput(input: string): string {
-  return input.trim().replace(/[<>]/g, '');
+  return input
+    .trim()
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/<[^>]*>/g, '')
+    .replace(/[<>]/g, '')
+    .replace(/javascript:/gi, '')
+    .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '');
 }
 
 /**

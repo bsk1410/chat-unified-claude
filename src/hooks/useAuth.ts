@@ -71,7 +71,9 @@ export function useAuth(): UseAuthReturn {
           });
         }
       } catch (err) {
-        console.error('Error initializing auth:', err);
+        if (import.meta.env.DEV) {
+          console.error('Error initializing auth:', err);
+        }
         if (mounted) {
           setState((prev) => ({
             ...prev,
@@ -103,12 +105,16 @@ export function useAuth(): UseAuthReturn {
         }
 
         if (event === 'TOKEN_REFRESHED') {
-          console.log('Token refreshed');
+          if (import.meta.env.DEV) {
+            console.log('Token refreshed');
+          }
         }
 
         if (event === 'PASSWORD_RECOVERY') {
           // User clicked password recovery link
-          console.log('Password recovery initiated');
+          if (import.meta.env.DEV) {
+            console.log('Password recovery initiated');
+          }
         }
       }
     );

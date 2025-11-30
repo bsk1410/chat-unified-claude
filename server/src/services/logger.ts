@@ -134,13 +134,16 @@ class Logger {
   private currentRequestId?: string;
 
   constructor(config?: Partial<LoggerConfig>) {
+    // In production, disable console output by default (use error tracking service instead)
+    const defaultConsoleOutput = process.env.NODE_ENV !== 'production';
+
     this.config = {
       level: LOGGING.DEFAULT_LEVEL,
       enabled: true,
       includeTimestamps: LOGGING.INCLUDE_TIMESTAMPS,
       includeRequestId: LOGGING.INCLUDE_REQUEST_ID,
       retentionCount: LOGGING.LOG_RETENTION_COUNT,
-      consoleOutput: true,
+      consoleOutput: defaultConsoleOutput,
       ...config,
     };
     this.store = new LogStore(this.config.retentionCount);
@@ -212,6 +215,15 @@ class Logger {
   }
 
   private outputToConsole(entry: LogEntry): void {
+    // Only output to console in development mode
+    if (process.env.NODE_ENV === 'production' && !this.config.consoleOutput) {
+      // In production, send to error tracking service (Sentry, LogRocket, etc.)
+      // if (entry.level === 'error' && entry.error) {
+      //   // Example: Sentry.captureException(entry.error);
+      // }
+      return;
+    }
+
     const prefix = this.formatPrefix(entry);
     const args: unknown[] = [prefix, entry.message];
 

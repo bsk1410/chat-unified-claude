@@ -7,15 +7,28 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
 dist
 dist-ssr
+build
+.next/
+out/
 *.local
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
+.idea/
+*.swp
+*.swo
+*.swn
 .DS_Store
 *.suo
 *.ntvs*
@@ -23,9 +36,21 @@ dist-ssr
 *.sln
 *.sw?
 
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
 # Environment files
 .env
 .env.local
+.env.development.local
+.env.test.local
+.env.production.local
 .env.*.local
 
 # Supabase
@@ -33,7 +58,71 @@ dist-ssr
 
 # Testing
 coverage
+coverage/
 .nyc_output
+.nyc_output/
 
 # Build artifacts
 *.tsbuildinfo
+
+# Cache directories
+.cache/
+.turbo/
+.eslintcache
+.parcel-cache
+
+# Secrets and credentials
+*.pem
+*.key
+secrets.json
+credentials.json
+service-account.json
+
+# Husky local files
+.husky/_/
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Debug files
+*.cpuprofile
+*.heapsnapshot
+
+# TypeScript
+*.tsbuildinfo
+.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn
+.yarn-integrity
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Local env files
+local.env
