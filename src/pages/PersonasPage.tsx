@@ -46,7 +46,7 @@ export function PersonasPage() {
   const [selectedPersona, setSelectedPersona] = useState<Persona | null>(null);
 
   // Conversation counts (would come from API in real app)
-  const [conversationCounts, setConversationCounts] = useState<Record<string, number>>({});
+  const [conversationCounts] = useState<Record<string, number>>({});
 
   // Load personas
   const loadPersonas = useCallback(async () => {

@@ -5,7 +5,7 @@
 
 import { SupabaseClient } from '@supabase/supabase-js';
 import { logger, LOG_CATEGORIES } from './logger';
-import { chat, ChatMessage } from './llm';
+import { chat } from './llm';
 import { countTokens } from './token-counter';
 import { PERSONA_ENGINE } from '../lib/constants';
 import {

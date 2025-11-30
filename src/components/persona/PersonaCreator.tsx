@@ -17,13 +17,6 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
 import { cn } from '../../lib/utils';
 import { PERSONA_ENGINE } from '../../lib/constants';
 import type { PersonaCreate } from '../../types/persona';

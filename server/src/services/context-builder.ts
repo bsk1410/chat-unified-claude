@@ -5,7 +5,7 @@
 
 import { SupabaseClient } from '@supabase/supabase-js';
 import { logger, LOG_CATEGORIES } from './logger';
-import { countTokens, estimateContextTokens } from './token-counter';
+import { countTokens } from './token-counter';
 import { createMemoryServices, FactService, DocumentService, TradeService } from './memory';
 import { PERSONA_ENGINE } from '../lib/constants';
 import { Persona, Conversation, Message, AssembledContext, MessageRole } from '../db/types';

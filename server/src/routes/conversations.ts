@@ -9,6 +9,7 @@ import { logger, LOG_CATEGORIES } from '../services/logger';
 import { parseBody, parseQuery, paginationSchema, createConversationSchema } from '../lib/validation';
 import { NotFoundError, ValidationError } from '../middleware/error-handler';
 import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../lib/constants';
+import type { Persona } from '../db/types';
 
 // ----------------------------------------------------------------------------
 // Router
@@ -259,7 +260,7 @@ conversations.post('/:id/summarize', async (c) => {
 
   const summary = await summarizer.summarize(
     conversation,
-    conversation.personas as any
+    conversation.personas as Persona
   );
 
   if (!summary) {
@@ -310,7 +311,7 @@ conversations.get('/:id/context', async (c) => {
   const contextBuilder = createContextBuilder(supabase);
 
   const preview = await contextBuilder.preview(
-    conversation.personas as any,
+    conversation.personas as Persona,
     conversation,
     messages || []
   );

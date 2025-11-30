@@ -5,7 +5,7 @@
 
 import { Context, Next } from 'hono';
 import { verifyToken, getSupabaseForUser } from '../db/client';
-import { logger, LOG_CATEGORIES, createRequestLogger } from '../services/logger';
+import { LOG_CATEGORIES, createRequestLogger } from '../services/logger';
 import { ERROR_MESSAGES } from '../lib/constants';
 
 // ----------------------------------------------------------------------------

@@ -201,7 +201,7 @@ export function sanitizeEmail(email: string): string {
 export function sanitizeFilename(filename: string): string {
   // Remove path components and dangerous characters
   return filename
-    .replace(/^.*[\\\/]/, '') // Remove path
+    .replace(/^.*[/\\]/, '') // Remove path
     .replace(/[<>:"|?*]/g, '') // Remove invalid filename chars
     .replace(/\.\./g, '') // Remove parent directory references
     .substring(0, 255); // Limit length

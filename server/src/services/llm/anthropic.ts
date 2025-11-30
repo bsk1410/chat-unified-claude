@@ -14,7 +14,6 @@ import {
   LLMOptions,
   StreamOptions,
   EmbeddingResponse,
-  EmbeddingOptions,
   calculateCost,
 } from './types';
 
@@ -194,14 +193,14 @@ export class AnthropicProvider implements LLMProvider {
    * Note: Anthropic does not provide embeddings, so we throw an error
    * Use OpenAI for embeddings instead
    */
-  async embed(_text: string, _options?: EmbeddingOptions): Promise<EmbeddingResponse> {
+  async embed(): Promise<EmbeddingResponse> {
     throw new Error('Anthropic does not provide embeddings. Use OpenAI provider for embeddings.');
   }
 
   /**
    * Generate embeddings for multiple texts
    */
-  async embedBatch(_texts: string[], _options?: EmbeddingOptions): Promise<EmbeddingResponse[]> {
+  async embedBatch(): Promise<EmbeddingResponse[]> {
     throw new Error('Anthropic does not provide embeddings. Use OpenAI provider for embeddings.');
   }
 
@@ -209,7 +208,7 @@ export class AnthropicProvider implements LLMProvider {
    * Count tokens in text
    * Note: Using tiktoken approximation for Claude
    */
-  countTokens(text: string, _model?: string): number {
+  countTokens(text: string): number {
     // Claude uses a similar tokenizer to GPT models
     return countTokens(text, 'claude-3');
   }

@@ -4,7 +4,6 @@
 // ============================================================================
 
 import { MessageBubble } from './MessageBubble';
-import { TypingIndicator } from './TypingIndicator';
 import type { Message, Persona } from '../../types/persona';
 
 // ----------------------------------------------------------------------------

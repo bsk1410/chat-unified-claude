@@ -46,7 +46,7 @@ interface DebugState {
 
 export const useDebugStore = create<DebugState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       // Initial state
       isDebugPanelOpen: false,
       logs: [],

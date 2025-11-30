@@ -3,7 +3,7 @@
 // Beautiful message input with send button
 // ============================================================================
 
-import { useRef, useCallback, KeyboardEvent } from 'react';
+import { useRef, useCallback, type KeyboardEvent } from 'react';
 import { Send, Loader2 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { Button } from '../ui/button';

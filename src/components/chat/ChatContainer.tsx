@@ -52,7 +52,6 @@ export function ChatContainer({
     setActiveConversation,
     setMessages,
     addMessage,
-    setLoading,
     setStreaming,
     appendStreamingContent,
     clearStreamingContent,

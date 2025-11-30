@@ -3,7 +3,7 @@
 // Handles all API communication with the persona engine backend
 // ============================================================================
 
-import { PERSONA_ENGINE, API } from './constants';
+import { PERSONA_ENGINE } from './constants';
 import { getSession } from './auth';
 import type {
   Persona,

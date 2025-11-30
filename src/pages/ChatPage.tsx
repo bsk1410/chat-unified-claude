@@ -4,24 +4,21 @@
 // ============================================================================
 
 import { useEffect, useState, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   PanelLeftClose,
   PanelLeft,
   Plus,
   MessageSquare,
   History,
-  Settings as SettingsIcon,
 } from 'lucide-react';
 
 import { DashboardLayout } from '@/components/layout';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
-  ChatContainer,
   ChatHeader,
   MessageList,
   MessageInput,
@@ -171,9 +168,8 @@ function Sidebar({
 // ----------------------------------------------------------------------------
 
 export function ChatPage() {
-  const { conversationId } = useParams();
   const navigate = useNavigate();
-  const { user, accessToken } = useAuth();
+  const { accessToken } = useAuth();
 
   // Local state
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -226,7 +222,7 @@ export function ChatPage() {
     }
 
     loadPersonas();
-  }, [accessToken]);
+  }, [accessToken, activePersona, setActivePersona, setError]);
 
   // Load conversations when persona changes
   useEffect(() => {
@@ -246,7 +242,7 @@ export function ChatPage() {
     }
 
     loadConversations();
-  }, [accessToken, activePersona?.id]);
+  }, [accessToken, activePersona]);
 
   // Load conversation messages when conversation changes
   useEffect(() => {
@@ -266,7 +262,7 @@ export function ChatPage() {
     }
 
     loadMessages();
-  }, [accessToken, activeConversation?.id]);
+  }, [accessToken, activeConversation, setMessages]);
 
   // Handle persona selection
   const handleSelectPersona = useCallback((persona: Persona) => {
@@ -274,14 +270,14 @@ export function ChatPage() {
     setActivePersona(persona);
     setActiveConversation(null);
     setMessages([]);
-  }, []);
+  }, [setActivePersona, setActiveConversation, setMessages]);
 
   // Handle conversation selection
   const handleSelectConversation = useCallback((conversation: Conversation) => {
     debugLog.info('Chat', 'Selected conversation', { conversationId: conversation.id });
     setActiveConversation(conversation);
     navigate(`${ROUTES.CHAT}/${conversation.id}`);
-  }, [navigate]);
+  }, [navigate, setActiveConversation]);
 
   // Handle new conversation
   const handleNewConversation = useCallback(() => {
@@ -289,7 +285,7 @@ export function ChatPage() {
     setActiveConversation(null);
     setMessages([]);
     navigate(ROUTES.CHAT);
-  }, [navigate]);
+  }, [navigate, setActiveConversation, setMessages]);
 
   // Handle send message
   const handleSendMessage = useCallback(async (content: string) => {
@@ -364,7 +360,7 @@ export function ChatPage() {
       setLoading(false);
       setStreaming(false);
     }
-  }, [accessToken, activePersona, activeConversation, navigate]);
+  }, [accessToken, activePersona, activeConversation, navigate, addMessage, setInputValue, setError, setLoading, setStreaming, clearStreamingContent, appendStreamingContent, setActiveConversation]);
 
   return (
     <>

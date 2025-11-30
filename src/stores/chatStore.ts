@@ -4,7 +4,7 @@
 // ============================================================================
 
 import { create } from 'zustand';
-import type { Message, Conversation, Persona, StreamChunk } from '../types/persona';
+import type { Message, Conversation, Persona } from '../types/persona';
 
 // ----------------------------------------------------------------------------
 // Types
@@ -65,7 +65,7 @@ const initialState = {
 // Store
 // ----------------------------------------------------------------------------
 
-export const useChatStore = create<ChatState>((set, get) => ({
+export const useChatStore = create<ChatState>((set) => ({
   ...initialState,
 
   setActivePersona: (persona) => set({ activePersona: persona }),

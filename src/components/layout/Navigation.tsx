@@ -11,7 +11,6 @@ import {
   LayoutDashboard,
   Settings,
   LogOut,
-  User,
   Moon,
   Sun,
   Monitor,

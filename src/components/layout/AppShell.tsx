@@ -3,7 +3,7 @@
 // Main layout wrapper with navigation and footer
 // ============================================================================
 
-import { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';

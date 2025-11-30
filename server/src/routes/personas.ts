@@ -10,7 +10,7 @@ import { parseBody } from '../lib/validation';
 import { createPersonaSchema, updatePersonaSchema } from '../lib/validation';
 import { NotFoundError, ValidationError } from '../middleware/error-handler';
 import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../lib/constants';
-import type { Persona, PersonaInsert } from '../db/types';
+import type { PersonaInsert } from '../db/types';
 
 // ----------------------------------------------------------------------------
 // Router

@@ -226,7 +226,7 @@ export interface TradeSetupCreate {
   trade_date?: string | null;
 }
 
-export interface TradeSetupUpdate extends Partial<Omit<TradeSetupCreate, 'persona_id'>> {}
+export type TradeSetupUpdate = Partial<Omit<TradeSetupCreate, 'persona_id'>>;
 
 export interface TradeSearchResult {
   id: string;

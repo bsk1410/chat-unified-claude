@@ -3,7 +3,7 @@
 // Accurate token counting using tiktoken
 // ============================================================================
 
-import { encodingForModel, getEncoding, Tiktoken } from 'js-tiktoken';
+import { getEncoding, Tiktoken } from 'js-tiktoken';
 import { logger, LOG_CATEGORIES } from './logger';
 
 // ----------------------------------------------------------------------------
@@ -129,7 +129,6 @@ class TokenCounter {
   ): number {
     // Base tokens for message formatting (varies by model, using approximation)
     const tokensPerMessage = 4; // <im_start>, role, \n, content, <im_end>
-    const tokensPerName = 1;
 
     let total = 0;
 

@@ -6,7 +6,7 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { logger, LOG_CATEGORIES } from './logger';
 import { embed, embedBatch } from './llm';
-import { chunkText, countTokens } from './token-counter';
+import { chunkText } from './token-counter';
 import { PERSONA_ENGINE } from '../lib/constants';
 import {
   PersonaFact,
@@ -17,7 +17,6 @@ import {
   TradeSetupInsert,
   DocumentSearchResult,
   TradeSearchResult,
-  FactCategory,
   DocumentSourceType,
 } from '../db/types';
 import { callRpc, dbQuery, dbList } from '../db/client';

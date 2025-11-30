@@ -100,7 +100,7 @@ export function Settings() {
         timezone: data.timezone,
       });
       toast.success(SUCCESS_MESSAGES.PROFILE_UPDATED);
-    } catch (error) {
+    } catch {
       toast.error('Failed to update profile');
     }
   };
@@ -148,7 +148,7 @@ export function Settings() {
       setAvatarUploading(true);
       await updateAvatar(file);
       toast.success('Avatar updated successfully');
-    } catch (error) {
+    } catch {
       toast.error('Failed to upload avatar');
     } finally {
       setAvatarUploading(false);

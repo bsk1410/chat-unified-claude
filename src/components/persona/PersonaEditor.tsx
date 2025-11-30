@@ -3,7 +3,7 @@
 // Form dialog for editing existing personas
 // ============================================================================
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { Save, X } from 'lucide-react';
 import {
   Dialog,
@@ -54,25 +54,32 @@ export function PersonaEditor({
   onSubmit,
   isSubmitting,
 }: PersonaEditorProps) {
-  const [formData, setFormData] = useState<PersonaUpdate>({});
+  // Derive initial form data from persona prop
+  const initialFormData = useMemo<PersonaUpdate>(() => persona ? {
+    name: persona.name,
+    system_prompt: persona.system_prompt,
+    voice_notes: persona.voice_notes || '',
+    memory_strategy: persona.memory_strategy,
+    max_context_tokens: persona.max_context_tokens,
+    memory_retrieval_count: persona.memory_retrieval_count,
+    is_active: persona.is_active,
+  } : {}, [persona]);
+
+  const [formData, setFormData] = useState<PersonaUpdate>(initialFormData);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [hasChanges, setHasChanges] = useState(false);
 
-  // Initialize form data when persona changes
+  // Reset form when persona ID changes (not the entire object to avoid re-renders)
+  const prevPersonaId = useRef<string | undefined>(undefined);
   useEffect(() => {
-    if (persona) {
-      setFormData({
-        name: persona.name,
-        system_prompt: persona.system_prompt,
-        voice_notes: persona.voice_notes || '',
-        memory_strategy: persona.memory_strategy,
-        max_context_tokens: persona.max_context_tokens,
-        memory_retrieval_count: persona.memory_retrieval_count,
-        is_active: persona.is_active,
-      });
+    if (persona?.id !== prevPersonaId.current) {
+      prevPersonaId.current = persona?.id;
+      // We intentionally set state in effect here to reset the form when persona changes
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setFormData(initialFormData);
       setHasChanges(false);
     }
-  }, [persona]);
+  }, [persona?.id, initialFormData]);
 
   // Track changes
   const updateFormData = (updates: Partial<PersonaUpdate>) => {

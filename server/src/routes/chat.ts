@@ -14,7 +14,7 @@ import { createContextBuilder } from '../services/context-builder';
 import { createSummarizationService } from '../services/summarization';
 import { chat, chatStream, ChatMessage } from '../services/llm';
 import { countTokens } from '../services/token-counter';
-import type { Message, MessageInsert, Persona, Conversation } from '../db/types';
+import type { MessageInsert, Persona, Conversation } from '../db/types';
 
 // ----------------------------------------------------------------------------
 // Router
@@ -131,7 +131,7 @@ chatRouter.post('/', async (c) => {
     metadata: metadata,
   };
 
-  const { data: savedUserMessage, error: userMsgError } = await supabase
+  const { error: userMsgError } = await supabase
     .from('messages')
     .insert(userMessageInsert)
     .select()

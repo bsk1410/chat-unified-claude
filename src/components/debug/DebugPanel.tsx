@@ -8,7 +8,6 @@ import {
   X,
   Trash2,
   Download,
-  Settings,
   RefreshCw,
   Filter,
   ArrowDown,

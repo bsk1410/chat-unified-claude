@@ -5,7 +5,7 @@
 
 import { Hono } from 'hono';
 import { getUserSupabase } from '../middleware/auth';
-import { logger, LOG_CATEGORIES } from '../services/logger';
+import { logger } from '../services/logger';
 import { PERSONA_ENGINE, LLM, RATE_LIMIT } from '../lib/constants';
 
 // ----------------------------------------------------------------------------
