@@ -23,6 +23,8 @@ import {
   Settings,
   NotFound,
   AuthCallbackPage,
+  ChatPage,
+  PersonasPage,
 } from '@/pages';
 
 function App() {
@@ -83,6 +85,32 @@ function App() {
             element={
               <ProtectedRoute>
                 <Settings />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Persona Engine Routes */}
+          <Route
+            path={ROUTES.CHAT}
+            element={
+              <ProtectedRoute>
+                <ChatPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={ROUTES.CHAT_CONVERSATION}
+            element={
+              <ProtectedRoute>
+                <ChatPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={ROUTES.PERSONAS}
+            element={
+              <ProtectedRoute>
+                <PersonasPage />
               </ProtectedRoute>
             }
           />

@@ -1,0 +1,26 @@
+{
+  "name": "persona-engine-server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.1",
+    "@hono/node-server": "^1.13.7",
+    "@supabase/supabase-js": "^2.86.0",
+    "hono": "^4.6.12",
+    "js-tiktoken": "^1.0.15",
+    "nanoid": "^5.1.5",
+    "openai": "^4.77.0",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

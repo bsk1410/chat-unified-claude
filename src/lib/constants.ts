@@ -18,8 +18,8 @@ export const ENV = {
 // Application Info
 // ----------------------------------------------------------------------------
 export const APP = {
-  NAME: 'SecureSaaS',
-  DESCRIPTION: 'Secure SaaS Starter Kit',
+  NAME: 'Persona Engine',
+  DESCRIPTION: 'Unified Chat Infrastructure for Multiple Applications',
   VERSION: '1.0.0',
   SUPPORT_EMAIL: 'support@example.com',
   WEBSITE: 'https://example.com',
@@ -41,6 +41,14 @@ export const ROUTES = {
   DASHBOARD: '/dashboard',
   SETTINGS: '/settings',
   PROFILE: '/profile',
+
+  // Persona Engine routes
+  CHAT: '/chat',
+  CHAT_CONVERSATION: '/chat/:conversationId',
+  PERSONAS: '/personas',
+  PERSONA_DETAIL: '/personas/:id',
+  PERSONA_MEMORY: '/personas/:id/memory',
+  TRADING: '/trading',
 
   // Error routes
   NOT_FOUND: '/404',
@@ -211,3 +219,88 @@ export const TIMEZONES = [
   { value: 'Asia/Singapore', label: 'Singapore' },
   { value: 'Australia/Sydney', label: 'Sydney' },
 ] as const;
+
+// ----------------------------------------------------------------------------
+// Persona Engine Configuration
+// ----------------------------------------------------------------------------
+export const PERSONA_ENGINE = {
+  // API
+  API_URL: import.meta.env.VITE_PERSONA_API_URL || 'http://localhost:3001',
+  API_VERSION: 'v1',
+
+  // Persona Types
+  PERSONA_TYPES: [
+    { value: 'simulated_person', label: 'Simulated Person', description: 'Practice conversations with public figures', icon: 'User' },
+    { value: 'journal_assistant', label: 'Trading Journal', description: 'Pattern recall and decision support', icon: 'TrendingUp' },
+    { value: 'companion', label: 'Companion', description: 'Human-like chat with memory', icon: 'Heart' },
+    { value: 'custom', label: 'Custom', description: 'Build your own persona', icon: 'Sparkles' },
+  ] as const,
+
+  // Memory Strategies
+  MEMORY_STRATEGIES: [
+    { value: 'array', label: 'Simple Facts', description: 'Store key facts as a list' },
+    { value: 'rag', label: 'RAG (Vector Search)', description: 'Semantic search through documents' },
+    { value: 'hybrid', label: 'Hybrid', description: 'Combine facts and vector search' },
+  ] as const,
+
+  // Trade Setup Types
+  TRADE_SETUP_TYPES: [
+    { value: 'breakout', label: 'Breakout' },
+    { value: 'reversal', label: 'Reversal' },
+    { value: 'continuation', label: 'Continuation' },
+    { value: 'range_play', label: 'Range Play' },
+    { value: 'momentum', label: 'Momentum' },
+    { value: 'mean_reversion', label: 'Mean Reversion' },
+    { value: 'gap_fill', label: 'Gap Fill' },
+    { value: 'other', label: 'Other' },
+  ] as const,
+
+  // Trade Outcomes
+  TRADE_OUTCOMES: [
+    { value: 'win', label: 'Win', color: 'text-green-600 bg-green-50' },
+    { value: 'loss', label: 'Loss', color: 'text-red-600 bg-red-50' },
+    { value: 'breakeven', label: 'Breakeven', color: 'text-yellow-600 bg-yellow-50' },
+    { value: 'pending', label: 'Pending', color: 'text-blue-600 bg-blue-50' },
+    { value: 'skipped', label: 'Skipped', color: 'text-gray-600 bg-gray-50' },
+  ] as const,
+
+  // Trade Timeframes
+  TRADE_TIMEFRAMES: [
+    { value: '1m', label: '1 Minute' },
+    { value: '5m', label: '5 Minutes' },
+    { value: '15m', label: '15 Minutes' },
+    { value: '1h', label: '1 Hour' },
+    { value: '4h', label: '4 Hours' },
+    { value: 'daily', label: 'Daily' },
+    { value: 'weekly', label: 'Weekly' },
+  ] as const,
+
+  // Fact Categories
+  FACT_CATEGORIES: [
+    { value: 'preference', label: 'Preference' },
+    { value: 'biographical', label: 'Biographical' },
+    { value: 'behavioral', label: 'Behavioral' },
+    { value: 'opinion', label: 'Opinion' },
+    { value: 'relationship', label: 'Relationship' },
+    { value: 'goal', label: 'Goal' },
+    { value: 'trait', label: 'Trait' },
+    { value: 'other', label: 'Other' },
+  ] as const,
+
+  // Defaults
+  DEFAULT_MAX_CONTEXT_TOKENS: 32000,
+  DEFAULT_SUMMARIZATION_THRESHOLD: 0.8,
+  DEFAULT_MEMORY_RETRIEVAL_COUNT: 5,
+
+  // Debug
+  DEBUG_ENABLED: import.meta.env.VITE_DEBUG_ENABLED === 'true' || import.meta.env.DEV,
+  LOG_RETENTION_COUNT: 500,
+} as const;
+
+// Type exports for persona engine
+export type PersonaType = typeof PERSONA_ENGINE.PERSONA_TYPES[number]['value'];
+export type MemoryStrategy = typeof PERSONA_ENGINE.MEMORY_STRATEGIES[number]['value'];
+export type TradeSetupType = typeof PERSONA_ENGINE.TRADE_SETUP_TYPES[number]['value'];
+export type TradeOutcome = typeof PERSONA_ENGINE.TRADE_OUTCOMES[number]['value'];
+export type TradeTimeframe = typeof PERSONA_ENGINE.TRADE_TIMEFRAMES[number]['value'];
+export type FactCategory = typeof PERSONA_ENGINE.FACT_CATEGORIES[number]['value'];
