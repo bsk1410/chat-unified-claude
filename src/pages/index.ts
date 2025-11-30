@@ -11,3 +11,7 @@ export { Dashboard } from './Dashboard';
 export { Settings } from './Settings';
 export { NotFound } from './NotFound';
 export { AuthCallbackPage } from './AuthCallbackPage';
+
+// Persona Engine Pages
+export { ChatPage } from './ChatPage';
+export { PersonasPage } from './PersonasPage';
